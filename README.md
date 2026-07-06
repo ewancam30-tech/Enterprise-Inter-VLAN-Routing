@@ -521,7 +521,7 @@ Add the screenshots for this project in a `/screenshots` folder and update the l
 
 ### Router Interface Status
 
-```text
+```
 <img width="293" height="91" alt="image" src="https://github.com/user-attachments/assets/5f6ed76f-0dfa-4794-be3d-092942099af1" />
 
 ```
