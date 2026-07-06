@@ -484,7 +484,10 @@ GigabitEthernet0/0.50  192.168.50.1    YES manual up      up
 GigabitEthernet0/0.60  192.168.60.1    YES manual up      up
 GigabitEthernet0/0.99  192.168.99.1    YES manual up      up
 ```
+```
 
+
+```
 ### show ip route
 
 ```text
@@ -521,14 +524,11 @@ Add the screenshots for this project in a `/screenshots` folder and update the l
 
 ### Router Interface Status
 
-```
-<img width="293" height="91" alt="image" src="https://github.com/user-attachments/assets/5f6ed76f-0dfa-4794-be3d-092942099af1" />
-
-```
+<img width="293" height="88" alt="image" src="https://github.com/user-attachments/assets/ddb87dd5-8d27-4461-a07e-d519985bb45b" />
 
 Purpose: Confirms all router subinterfaces are up and assigned the correct gateway addresses.
 
-Command used:
+command used:
 
 ```text
 show ip interface brief
@@ -536,8 +536,9 @@ show ip interface brief
 
 ### Routing Table
 
-```text
-screenshots/routing-table.png
+
+<img width="293" height="212" alt="image" src="https://github.com/user-attachments/assets/39945429-39ab-47c7-8b42-77bc5f22fda0" />
+
 ```
 
 Purpose: Confirms the router has connected routes for every VLAN subnet.
@@ -550,8 +551,8 @@ show ip route
 
 ### SW1 Trunk Status
 
-```text
-screenshots/sw1-trunk-status.png
+<img width="260" height="107" alt="image" src="https://github.com/user-attachments/assets/0ff13a2a-c79c-4025-8c9a-58f5ebcf1c1e" />
+
 ```
 
 Purpose: Confirms SW1 trunks are operational and carrying the correct VLANs.
@@ -564,8 +565,8 @@ show interfaces trunk
 
 ### SW2 Trunk Status
 
-```text
-screenshots/sw2-trunk-status.png
+<img width="261" height="83" alt="image" src="https://github.com/user-attachments/assets/4f457eee-6989-4414-9f0f-397977af0c4c" />
+
 ```
 
 Purpose: Confirms SW2 trunk to SW1 is operational.
@@ -578,8 +579,10 @@ show interfaces trunk
 
 ### VLAN Database
 
-```text
-screenshots/vlan-database.png
+<img width="297" height="109" alt="image" src="https://github.com/user-attachments/assets/ecac5428-ee04-473e-88a9-611fabf1c4eb" />
+
+<img width="292" height="122" alt="image" src="https://github.com/user-attachments/assets/94628df3-fdf1-4383-b964-222e38aedb2b" />
+
 ```
 
 Purpose: Confirms VLANs exist and access ports are assigned correctly.
@@ -592,8 +595,8 @@ show vlan brief
 
 ### Cross-VLAN Connectivity
 
-```text
-screenshots/cross-vlan-ping.png
+<img width="209" height="425" alt="image" src="https://github.com/user-attachments/assets/7c54226a-8857-46f9-8407-44e316d7622c" />
+
 ```
 
 Purpose: Confirms devices in different VLANs can communicate through Router1.
@@ -606,8 +609,8 @@ ping 192.168.20.10
 
 ### Traceroute
 
-```text
-screenshots/traceroute.png
+<img width="222" height="296" alt="image" src="https://github.com/user-attachments/assets/be82c32b-8f08-4ac4-8115-f5cbee83c77f" />
+
 ```
 
 Purpose: Confirms traffic crosses the router gateway before reaching the destination VLAN.
@@ -718,6 +721,20 @@ interface fastEthernet0/2
  switchport mode access
  switchport access vlan 30
 ```
+### Troubleshooting Case Study: VLANs Allowed on Trunk but Not Active
+
+| Item | Details |
+|---|---|
+| Problem | PCs on one switch could not ping devices on the other switch |
+| Symptom | Inter-VLAN routing worked locally, but traffic failed across the inter-switch trunk |
+| Investigation | `show interfaces trunk` showed the trunk was up, but only VLANs 10, 20, and 40 were active in the management domain |
+| Root Cause | VLANs 30, 50, 60, 99, and 999 were allowed on the trunk but were not created in the switch VLAN database |
+| Resolution | Created the missing VLANs on the switch |
+| Verification | `show interfaces trunk` confirmed all required VLANs were active and forwarding; cross-switch pings succeeded |
+
+**Lesson Learned:**  
+A VLAN can be allowed on a trunk, but the switch will not forward that VLAN unless it exists and is active in the VLAN database.
+
 
 Lesson learned: Always verify access port assignment before troubleshooting routing.
 
